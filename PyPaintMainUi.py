@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QWidget
 from PaintWidget import PaintWidget
 
 class PyPaintMainUi(QMainWindow):
@@ -8,7 +8,25 @@ class PyPaintMainUi(QMainWindow):
         self.move(100, 100)
 
         self._addWidgets()
+        self._linkButtons()
 
     def _addWidgets(self):
+        mainLayout = QVBoxLayout()
+
         self.paintWidget = PaintWidget()
-        self.setCentralWidget(self.paintWidget)
+        mainLayout.addWidget(self.paintWidget)
+
+        buttonsLayout = QHBoxLayout()
+
+        self.clearButton = QPushButton("Clear")
+        buttonsLayout.addWidget(self.clearButton)
+
+        mainLayout.addLayout(buttonsLayout)
+
+        widget = QWidget()
+        widget.setLayout(mainLayout)
+
+        self.setCentralWidget(widget)
+
+    def _linkButtons(self):
+        self.clearButton.clicked.connect(self.paintWidget.clearImage)

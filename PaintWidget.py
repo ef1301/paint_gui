@@ -5,9 +5,7 @@ class PaintWidget(QLabel):
     def __init__(self):
         super().__init__()
 
-        image = QPixmap(500, 500)
-        image.fill(QColor("white"))
-        self.setPixmap(image)
+        self.clearImage()
 
         self.curPos = None
         self.curColor = QColor('black')
@@ -30,3 +28,8 @@ class PaintWidget(QLabel):
 
     def mouseReleaseEvent(self, event):
         self.curPos = None
+
+    def clearImage(self):
+        image = QPixmap(500, 500)
+        image.fill(QColor("white"))
+        self.setPixmap(image)

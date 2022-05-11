@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QComboBox
+from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QComboBox, QSlider, QLabel
+from PyQt5.QtCore import Qt
 from PaintWidget import PaintWidget
 
 class PyPaintMainUi(QMainWindow):
@@ -15,6 +16,19 @@ class PyPaintMainUi(QMainWindow):
 
         self.paintWidget = PaintWidget()
         mainLayout.addWidget(self.paintWidget)
+
+        sliderLayout = QHBoxLayout()
+
+        self.sizeSlider = QSlider()
+        self.sizeSlider.setOrientation(Qt.Horizontal)
+        self.sizeSlider.setMinimum(1)
+        self.sizeSlider.setMaximum(50)
+        self.sizeSlider.setValue(5)
+
+        sliderLayout.addWidget(QLabel("Brush Size:"))
+        sliderLayout.addWidget(self.sizeSlider)
+
+        mainLayout.addLayout(sliderLayout)
 
         buttonsLayout = QHBoxLayout()
 
@@ -40,3 +54,4 @@ class PyPaintMainUi(QMainWindow):
         self.clearButton.clicked.connect(self.paintWidget.clearImage)
         self.colorComboBox.activated.connect(self.paintWidget.setColor)
         self.saveButton.clicked.connect(self.paintWidget.saveImage)
+        self.sizeSlider.valueChanged.connect(self.paintWidget.setBrushSize)

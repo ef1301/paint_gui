@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QWidget
+from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QComboBox
 from PaintWidget import PaintWidget
 
 class PyPaintMainUi(QMainWindow):
@@ -19,7 +19,12 @@ class PyPaintMainUi(QMainWindow):
         buttonsLayout = QHBoxLayout()
 
         self.clearButton = QPushButton("Clear")
+
+        self.colorComboBox = QComboBox()
+        self.colorComboBox.addItems(['black','red','yellow','blue'])
+
         buttonsLayout.addWidget(self.clearButton)
+        buttonsLayout.addWidget(self.colorComboBox)
 
         mainLayout.addLayout(buttonsLayout)
 
@@ -30,3 +35,4 @@ class PyPaintMainUi(QMainWindow):
 
     def _linkButtons(self):
         self.clearButton.clicked.connect(self.paintWidget.clearImage)
+        self.colorComboBox.activated.connect(self.paintWidget.setColor)

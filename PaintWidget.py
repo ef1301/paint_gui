@@ -9,6 +9,7 @@ class PaintWidget(QLabel):
 
         self.curPos = None
         self.curColor = QColor('black')
+        self.colorChoices = ['black','red','yellow','blue']
 
     def mouseMoveEvent(self, event):
         if self.curPos is None:
@@ -28,6 +29,9 @@ class PaintWidget(QLabel):
 
     def mouseReleaseEvent(self, event):
         self.curPos = None
+
+    def setColor(self, color):
+        self.curColor = QColor(self.colorChoices[color])
 
     def clearImage(self):
         image = QPixmap(500, 500)

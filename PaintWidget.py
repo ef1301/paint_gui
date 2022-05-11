@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QLabel
+from PyQt5.QtWidgets import QLabel, QFileDialog
 from PyQt5.QtGui import QPixmap, QColor, QPainter
 
 class PaintWidget(QLabel):
@@ -10,6 +10,8 @@ class PaintWidget(QLabel):
         self.curPos = None
         self.curColor = QColor('black')
         self.colorChoices = ['black','red','yellow','blue']
+
+
 
     def mouseMoveEvent(self, event):
         if self.curPos is None:
@@ -37,3 +39,11 @@ class PaintWidget(QLabel):
         image = QPixmap(500, 500)
         image.fill(QColor("white"))
         self.setPixmap(image)
+
+    def saveImage(self):
+        fileName, _ = QFileDialog.getSaveFileName(self, "Save Image", "image.png", "PNG(*.png);;")
+        
+        if fileName.find(".png") > 0:
+            self.pixmap().save(fileName)
+        else:
+            print("Invalid File Name")

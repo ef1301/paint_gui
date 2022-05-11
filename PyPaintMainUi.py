@@ -23,8 +23,11 @@ class PyPaintMainUi(QMainWindow):
         self.colorComboBox = QComboBox()
         self.colorComboBox.addItems(['black','red','yellow','blue'])
 
+        self.saveButton = QPushButton("Save")
+
         buttonsLayout.addWidget(self.clearButton)
         buttonsLayout.addWidget(self.colorComboBox)
+        buttonsLayout.addWidget(self.saveButton)
 
         mainLayout.addLayout(buttonsLayout)
 
@@ -36,3 +39,4 @@ class PyPaintMainUi(QMainWindow):
     def _linkButtons(self):
         self.clearButton.clicked.connect(self.paintWidget.clearImage)
         self.colorComboBox.activated.connect(self.paintWidget.setColor)
+        self.saveButton.clicked.connect(self.paintWidget.saveImage)

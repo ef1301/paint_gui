@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QComboBox, QSlider, QLabel
+from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QComboBox, QSlider, QLabel, QColorDialog
 from PyQt5.QtCore import Qt
 from PaintWidget import PaintWidget
 
@@ -56,13 +56,12 @@ class PyPaintMainUi(QMainWindow):
 
         self.clearButton = QPushButton("Clear")
 
-        self.colorComboBox = QComboBox()
-        self.colorComboBox.addItems(['black','red','yellow','blue'])
+        self.colorButton = QPushButton("Set Color")
 
         self.saveButton = QPushButton("Save")
 
         buttonsLayout.addWidget(self.clearButton)
-        buttonsLayout.addWidget(self.colorComboBox)
+        buttonsLayout.addWidget(self.colorButton)
         buttonsLayout.addWidget(self.saveButton)
 
         mainLayout.addLayout(buttonsLayout)
@@ -74,7 +73,7 @@ class PyPaintMainUi(QMainWindow):
 
     def _linkButtons(self):
         self.clearButton.clicked.connect(self.paintWidget.clearImage)
-        self.colorComboBox.activated.connect(self.paintWidget.setColor)
+        self.colorButton.clicked.connect(self.paintWidget.setColor)
         self.saveButton.clicked.connect(self.paintWidget.saveImage)
         self.sizeSlider.valueChanged.connect(self.paintWidget.setBrushSize)
         self.enlargeComboBox.activated[str].connect(self.paintWidget.setEnlargeStyle)

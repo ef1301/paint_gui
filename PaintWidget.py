@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QLabel, QFileDialog
+from PyQt5.QtWidgets import QLabel, QFileDialog, QColorDialog
 from PyQt5.QtGui import QPixmap, QColor, QPainter, QPen
 from PyQt5.QtCore import Qt, QSize
 
@@ -34,8 +34,10 @@ class PaintWidget(QLabel):
     def mouseReleaseEvent(self, event):
         self.curPos = None
 
-    def setColor(self, color):
-        self.curColor = QColor(self.colorChoices[color])
+    def setColor(self):
+        
+        self.curColor = QColorDialog.getColor()
+        # self.curColor = QColor(self.colorChoices[color])
 
     def setBrushSize(self, size):
         self.curSize = size

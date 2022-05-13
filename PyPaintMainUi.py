@@ -17,6 +17,8 @@ class PyPaintMainUi(QMainWindow):
         self.paintWidget = PaintWidget()
         mainLayout.addWidget(self.paintWidget)
 
+        mainLayout.addSpacing(1)
+
         sliderLayout = QHBoxLayout()
 
         self.sizeSlider = QSlider()
@@ -29,6 +31,26 @@ class PyPaintMainUi(QMainWindow):
         sliderLayout.addWidget(self.sizeSlider)
 
         mainLayout.addLayout(sliderLayout)
+
+        mainLayout.addSpacing(1)
+
+        resizeLayout = QHBoxLayout()
+
+        resizeLayout.addWidget(QLabel("Image/Window Resize Style:"))
+
+        resizeLayout.addWidget(QLabel("Enlarge:"), 0, Qt.AlignRight)
+        self.enlargeComboBox = QComboBox()
+        self.enlargeComboBox.addItems(["extend", "scale"])
+        resizeLayout.addWidget(self.enlargeComboBox)
+
+        resizeLayout.addWidget(QLabel("Shrink:"), 0, Qt.AlignRight)
+        self.shrinkComboBox = QComboBox()
+        self.shrinkComboBox.addItems(["crop", "scale"])
+        resizeLayout.addWidget(self.shrinkComboBox)
+
+        mainLayout.addLayout(resizeLayout)
+
+        mainLayout.addSpacing(1)
 
         buttonsLayout = QHBoxLayout()
 
@@ -55,3 +77,5 @@ class PyPaintMainUi(QMainWindow):
         self.colorComboBox.activated.connect(self.paintWidget.setColor)
         self.saveButton.clicked.connect(self.paintWidget.saveImage)
         self.sizeSlider.valueChanged.connect(self.paintWidget.setBrushSize)
+        self.enlargeComboBox.activated[str].connect(self.paintWidget.setEnlargeStyle)
+        self.shrinkComboBox.activated[str].connect(self.paintWidget.setShrinkStyle)

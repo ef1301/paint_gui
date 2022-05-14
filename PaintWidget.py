@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QLabel, QFileDialog, QColorDialog
 from PyQt5.QtGui import QPixmap, QColor, QPainter, QPen, QCursor
-from PyQt5.QtCore import Qt, QSize, QPoint
+from PyQt5.QtCore import Qt, QSize, QPoint, QPointF
+import random
 
 class PaintWidget(QLabel):
     def __init__(self):
@@ -12,6 +13,7 @@ class PaintWidget(QLabel):
         self.clearImage()
 
         self.curPos = None
+        self.brushStyle = "solid"
         self.curColor = QColor('black')
         self.curSize = 15
         self.enlargeStyle = "extend"
@@ -39,13 +41,22 @@ class PaintWidget(QLabel):
         self.isDrawing = True
         self.curPos = event.pos()
         painter = QPainter(self.pixmap())
-        painter.setPen(QPen(self.curColor, self.curSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
-        painter.drawPoint(self.curPos)
-        painter.end()
-        self.update()
+        if self.brushStyle == "solid":
+            painter.setPen(QPen(self.curColor, self.curSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+            painter.drawPoint(self.curPos)
+            painter.end()
+            self.update()
+        elif self.brushStyle == "spray":
+            painter.setPen(QPen(self.curColor, 1, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+            painter.drawPoint(self.curPos)
+            for n in range(50):
+                p = QPointF(random.gauss(0, self.curSize)/2, random.gauss(0, self.curSize)/2)
+                painter.drawPoint(event.pos() + p)
+            painter.end()
+            self.update()
 
     def mouseMoveEvent(self, event):
-        if self.showCursor:
+        if self.showCursor and self.brushStyle == "solid":
             self.setCursor(self.customCursor)
         else:
             self.unsetCursor()
@@ -54,12 +65,19 @@ class PaintWidget(QLabel):
             return
 
         painter = QPainter(self.pixmap())
-        painter.setPen(QPen(self.curColor, self.curSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
-        painter.drawLine(self.curPos, event.pos())
-        painter.end()
-        self.update()
-
-        self.curPos = event.pos()
+        if self.brushStyle == "solid":
+            painter.setPen(QPen(self.curColor, self.curSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+            painter.drawLine(self.curPos, event.pos())
+            painter.end()
+            self.update()
+            self.curPos = event.pos()
+        elif self.brushStyle == "spray":
+            painter.setPen(QPen(self.curColor, 1, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+            for n in range(50):
+                p = QPointF(random.gauss(0, self.curSize)/2, random.gauss(0, self.curSize)/2)
+                painter.drawPoint(event.pos() + p)
+            painter.end()
+            self.update()
 
     def mouseReleaseEvent(self, event):
         self.isDrawing = False
@@ -75,6 +93,15 @@ class PaintWidget(QLabel):
     def setBrushSize(self, size):
         self.curSize = size
         self.updateCustomCursor()
+
+    def setSolidBrush(self):
+        self.brushStyle = "solid"
+
+    def setSprayBrush(self):
+        self.brushStyle = "spray"
+
+    def setEraseBrush(self):
+        self.brushStyle = "erase"
 
     def setEnlargeStyle(self, style):
         self.enlargeStyle = style

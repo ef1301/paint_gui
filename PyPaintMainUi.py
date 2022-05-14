@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QComboBox, QSlider, QLabel, QColorDialog, QCheckBox
+from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QComboBox, QSlider, QLabel, QColorDialog, QCheckBox, QRadioButton
 from PyQt5.QtCore import Qt
 from PaintWidget import PaintWidget
 
@@ -39,6 +39,21 @@ class PyPaintMainUi(QMainWindow):
         mainLayout.addLayout(sliderLayout)
 
         mainLayout.addSpacing(1)
+
+        radiosLayout = QHBoxLayout()
+        radiosLayout.addWidget(QLabel("Brush Styles:"))
+        self.solidBrush = QRadioButton("solid")
+        self.solidBrush.setChecked(True)
+        self.sprayBrush = QRadioButton("spray")
+        self.eraseBrush = QRadioButton("erase")
+
+        radiosLayout.addWidget(self.solidBrush)
+        radiosLayout.addWidget(self.sprayBrush)
+        radiosLayout.addWidget(self.eraseBrush)
+
+        mainLayout.addLayout(radiosLayout)
+        mainLayout.addSpacing(1)
+
 
         resizeLayout = QHBoxLayout()
 
@@ -82,6 +97,8 @@ class PyPaintMainUi(QMainWindow):
         self.colorButton.clicked.connect(self.paintWidget.setColor)
         self.saveButton.clicked.connect(self.paintWidget.saveImage)
         self.sizeSlider.valueChanged.connect(self.paintWidget.setBrushSize)
+        self.solidBrush.toggled.connect(self.paintWidget.setSolidBrush)
+        self.sprayBrush.toggled.connect(self.paintWidget.setSprayBrush)
         self.enlargeComboBox.activated[str].connect(self.paintWidget.setEnlargeStyle)
         self.shrinkComboBox.activated[str].connect(self.paintWidget.setShrinkStyle)
         self.cursorCheckBox.stateChanged.connect(self.paintWidget.setShowCursor)

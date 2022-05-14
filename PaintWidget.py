@@ -97,10 +97,9 @@ class PaintWidget(QLabel):
     def setShowCursor(self, val):
         self.showCursor = val
 
-    def setColor(self):
-        self.curColor = QColorDialog.getColor()
+    def setColor(self, color):
+        self.curColor = color
         self.updateCustomCursor()
-        return self.curColor
 
     def setBrushSize(self, size):
         self.curSize = size
@@ -120,6 +119,10 @@ class PaintWidget(QLabel):
 
     def setShrinkStyle(self, style):
         self.shrinkStyle = style
+
+    def changeColor(self):
+        self.setColor(QColorDialog.getColor())
+        return self.curColor
 
     def clearImage(self):
         image = QPixmap(self.curImageSize)

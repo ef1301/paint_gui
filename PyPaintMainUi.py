@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QComboBox, QSlider, QLabel, QColorDialog, QCheckBox, QRadioButton
+from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QComboBox, QSlider, QLabel, QColorDialog, QCheckBox, QRadioButton, QListWidget, QListWidgetItem
+from PyQt5.QtGui import QColor
 from PyQt5.QtCore import Qt
 from PaintWidget import PaintWidget
 
@@ -87,14 +88,27 @@ class PyPaintMainUi(QMainWindow):
 
         mainLayout.addLayout(buttonsLayout)
 
+        colorHistoryLayout = QVBoxLayout()
+        colorHistoryLayout.addWidget(QLabel("Color History (Click to Reuse)"))
+        self.colorHistory = QListWidget()
+        self.colorHistory.setFixedWidth(170)
+        initialItem = QListWidgetItem("black", self.colorHistory)
+        initialItem.setBackground(Qt.black)
+        colorHistoryLayout.addWidget(self.colorHistory)
+
+        columnLayout = QHBoxLayout()
+        columnLayout.addLayout(mainLayout)
+        columnLayout.addSpacing(10)
+        columnLayout.addLayout(colorHistoryLayout)
+
         widget = QWidget()
-        widget.setLayout(mainLayout)
+        widget.setLayout(columnLayout)
 
         self.setCentralWidget(widget)
 
     def _linkActions(self):
         self.clearButton.clicked.connect(self.paintWidget.clearImage)
-        self.colorButton.clicked.connect(self.paintWidget.setColor)
+        self.colorButton.clicked.connect(self.changeColor)
         self.saveButton.clicked.connect(self.paintWidget.saveImage)
         self.sizeSlider.valueChanged.connect(self.paintWidget.setBrushSize)
         self.solidBrush.toggled.connect(self.paintWidget.setSolidBrush)
@@ -103,3 +117,14 @@ class PyPaintMainUi(QMainWindow):
         self.enlargeComboBox.activated[str].connect(self.paintWidget.setEnlargeStyle)
         self.shrinkComboBox.activated[str].connect(self.paintWidget.setShrinkStyle)
         self.cursorCheckBox.stateChanged.connect(self.paintWidget.setShowCursor)
+        self.colorHistory.currentTextChanged.connect(self.reuseColor)
+
+    def changeColor(self):
+        color = self.paintWidget.setColor()
+        listItem = QListWidgetItem(color.name(), self.colorHistory)
+        listItem.setBackground(color)
+        self.colorHistory.clearSelection()
+
+    def reuseColor(self, color):
+        self.paintWidget.curColor = QColor(color)
+        self.paintWidget.updateCustomCursor()

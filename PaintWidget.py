@@ -100,6 +100,7 @@ class PaintWidget(QLabel):
     def setColor(self):
         self.curColor = QColorDialog.getColor()
         self.updateCustomCursor()
+        return self.curColor
 
     def setBrushSize(self, size):
         self.curSize = size

@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QComboBox, QSlider, QLabel, QColorDialog
+from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QComboBox, QSlider, QLabel, QColorDialog, QCheckBox
 from PyQt5.QtCore import Qt
 from PaintWidget import PaintWidget
 
@@ -9,7 +9,7 @@ class PyPaintMainUi(QMainWindow):
         self.move(100, 100)
 
         self._addWidgets()
-        self._linkButtons()
+        self._linkActions()
 
     def _addWidgets(self):
         mainLayout = QVBoxLayout()
@@ -21,11 +21,17 @@ class PyPaintMainUi(QMainWindow):
 
         sliderLayout = QHBoxLayout()
 
+        sliderLayout.addWidget(QLabel("Circular Cursor:"))
+        self.cursorCheckBox = QCheckBox()
+        self.cursorCheckBox.setChecked(self.paintWidget.showCursor)
+        sliderLayout.addWidget(self.cursorCheckBox)
+        sliderLayout.addSpacing(20)
+
         self.sizeSlider = QSlider()
         self.sizeSlider.setOrientation(Qt.Horizontal)
         self.sizeSlider.setMinimum(1)
         self.sizeSlider.setMaximum(50)
-        self.sizeSlider.setValue(5)
+        self.sizeSlider.setValue(self.paintWidget.curSize)
 
         sliderLayout.addWidget(QLabel("Brush Size:"))
         sliderLayout.addWidget(self.sizeSlider)
@@ -71,10 +77,11 @@ class PyPaintMainUi(QMainWindow):
 
         self.setCentralWidget(widget)
 
-    def _linkButtons(self):
+    def _linkActions(self):
         self.clearButton.clicked.connect(self.paintWidget.clearImage)
         self.colorButton.clicked.connect(self.paintWidget.setColor)
         self.saveButton.clicked.connect(self.paintWidget.saveImage)
         self.sizeSlider.valueChanged.connect(self.paintWidget.setBrushSize)
         self.enlargeComboBox.activated[str].connect(self.paintWidget.setEnlargeStyle)
         self.shrinkComboBox.activated[str].connect(self.paintWidget.setShrinkStyle)
+        self.cursorCheckBox.stateChanged.connect(self.paintWidget.setShowCursor)

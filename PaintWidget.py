@@ -54,6 +54,11 @@ class PaintWidget(QLabel):
                 painter.drawPoint(event.pos() + p)
             painter.end()
             self.update()
+        elif self.brushStyle == "erase":
+            painter.setPen(QPen(Qt.white, self.curSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+            painter.drawPoint(self.curPos)
+            painter.end()
+            self.update()
 
     def mouseMoveEvent(self, event):
         if self.showCursor and self.brushStyle == "solid":
@@ -76,6 +81,12 @@ class PaintWidget(QLabel):
             for n in range(50):
                 p = QPointF(random.gauss(0, self.curSize)/2, random.gauss(0, self.curSize)/2)
                 painter.drawPoint(event.pos() + p)
+            painter.end()
+            self.update()
+        elif self.brushStyle == "erase":
+            painter.setPen(QPen(Qt.white, self.curSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+            painter.drawLine(self.curPos, event.pos())
+            self.curPos = event.pos()
             painter.end()
             self.update()
 

@@ -99,6 +99,7 @@ class PyPaintMainUi(QMainWindow):
         self.sizeSlider.valueChanged.connect(self.paintWidget.setBrushSize)
         self.solidBrush.toggled.connect(self.paintWidget.setSolidBrush)
         self.sprayBrush.toggled.connect(self.paintWidget.setSprayBrush)
+        self.eraseBrush.toggled.connect(self.paintWidget.setEraseBrush)
         self.enlargeComboBox.activated[str].connect(self.paintWidget.setEnlargeStyle)
         self.shrinkComboBox.activated[str].connect(self.paintWidget.setShrinkStyle)
         self.cursorCheckBox.stateChanged.connect(self.paintWidget.setShowCursor)

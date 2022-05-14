@@ -150,7 +150,9 @@ class PaintWidget(QLabel):
         self.setPixmap(newImage)
 
     def resizeEvent(self, event):
-        if (self.width() > self.curImageSize.width() or self.height() > self.curImageSize.height()):
+        tempImageSize = self.curImageSize
+        self.curImageSize = QSize(self.width(), self.height())
+        if (self.width() > tempImageSize.width() or self.height() > tempImageSize.height()):
             if self.enlargeStyle == "extend":
                 self.extend()
             else:
@@ -160,4 +162,3 @@ class PaintWidget(QLabel):
                 self.extend()
             else:
                 self.scale()
-        self.curImageSize = QSize(self.width(), self.height())

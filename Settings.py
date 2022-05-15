@@ -84,7 +84,7 @@ class Settings(QWidget):
         self.setLayout(layout)
 
     def _linkActions(self):
-        self.clearButton.clicked.connect(self._paintWidget.clearImage)
+        self.clearButton.clicked.connect(self._paintWidget.clearImageDialog)
         self.colorButton.clicked.connect(self.changeColor)
         self.saveButton.clicked.connect(self._paintWidget.saveImage)
         self.sizeSlider.valueChanged.connect(self._paintWidget.setBrushSize)

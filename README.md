@@ -27,6 +27,10 @@ How to run the program
 ```
 python main.py
 ```
+
+## Problems Encountered
+The Problems we encountered and our solutions can be found [here](PROBLEMS.md).
+
 ## Classes & Functions
 * **PyPaintMainUi:** Encapsulates PaintWidget, Settings, and Color History
   * `_addWidgets(self)`: encapsulates PaintWidget, Settings, and Color History under a central widget

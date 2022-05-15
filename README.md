@@ -4,20 +4,21 @@
 
 ## Description
 
-A painting GUI with the following functionalities:
-* Slider Widget (QSlider): Change Brush Size
-
-* Checkbox Widget (QCheckBox): Toggle Circular Drawing Cursor
-* Radio Widget (QRadioButton): Change Brush Style (Solid, Spray, Erase)
-* ComboBox Widget (QComboBox): Image/WIndow Resize Style
+A painting GUI with the following functionalities and widgets:
+* **Label Widget (QLabel)**
+* **Slider Widget (QSlider):** Change Brush Size
+* **Checkbox Widget (QCheckBox):** Toggle Circular Drawing Cursor
+* **Radio Widget (QRadioButton):** Change Brush Style (Solid, Spray, Erase)
+* **ComboBox Widget (QComboBox):** Image/WIndow Resize Style
   * Enlarge (extend, scale)
   * Shrink (crop, scale)
-* Button Widget (QPushButton): Clear Canvas, Change Brush Color, Save Canvas as png
-* List Widget (QListWidget, QListWidgetItem): Color History
+* **Button, Color, MessageBox, File Widget (QPushButton, QColorDialog, QMessageBox, QFileDialog):** Clear Canvas, Change Brush Color, Save Canvas as png
+* **List Widget (QListWidget, QListWidgetItem):** Color History
 
 ### Dependencies
 
-* PyQt
+* PyQt5
+* random
 
 ### Executing program
 

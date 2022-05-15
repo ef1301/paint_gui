@@ -19,11 +19,7 @@ class PaintWidget(QLabel):
         self.enlargeStyle = "extend"
         self.shrinkStyle = "crop"
 
-        self.setMouseTracking(True)
-        self.isDrawing = False
-
         self.showCursor = True
-
         self.updateCustomCursor()
 
     def updateCustomCursor(self):
@@ -35,84 +31,60 @@ class PaintWidget(QLabel):
         painter.drawEllipse(QPoint(50, 50), self.curSize / 2, self.curSize / 2)
         painter.end()
         cursor = QCursor(pointer)
-        self.customCursor = cursor
+        if self.showCursor and self.brushStyle != "spray":
+            self.setCursor(cursor)
+        else:
+            self.unsetCursor()
 
     def mousePressEvent(self, event):
-        self.isDrawing = True
-        self.curPos = event.pos()
-        painter = QPainter(self.pixmap())
-        if self.brushStyle == "solid":
+        if self.brushStyle != "spray":
+            self.curPos = event.pos()
+            painter = QPainter(self.pixmap())
             painter.setPen(QPen(self.curColor, self.curSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
-            painter.drawPoint(self.curPos)
-            painter.end()
-            self.update()
-        elif self.brushStyle == "spray":
-            painter.setPen(QPen(self.curColor, 1, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
-            painter.drawPoint(self.curPos)
-            for n in range(50):
-                p = QPointF(random.gauss(0, self.curSize)/2, random.gauss(0, self.curSize)/2)
-                painter.drawPoint(event.pos() + p)
-            painter.end()
-            self.update()
-        elif self.brushStyle == "erase":
-            painter.setPen(QPen(Qt.white, self.curSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
             painter.drawPoint(self.curPos)
             painter.end()
             self.update()
 
     def mouseMoveEvent(self, event):
-        if self.showCursor and self.brushStyle == "solid":
-            self.setCursor(self.customCursor)
-        else:
-            self.unsetCursor()
-
-        if (not self.isDrawing):
-            return
-
         painter = QPainter(self.pixmap())
-        if self.brushStyle == "solid":
-            painter.setPen(QPen(self.curColor, self.curSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
-            painter.drawLine(self.curPos, event.pos())
-            painter.end()
-            self.update()
-            self.curPos = event.pos()
-        elif self.brushStyle == "spray":
+        if self.brushStyle == "spray":
             painter.setPen(QPen(self.curColor, 1, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
             for n in range(50):
                 p = QPointF(random.gauss(0, self.curSize)/2, random.gauss(0, self.curSize)/2)
                 painter.drawPoint(event.pos() + p)
-            painter.end()
-            self.update()
-        elif self.brushStyle == "erase":
-            painter.setPen(QPen(Qt.white, self.curSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
+        else:
+            painter.setPen(QPen(self.curColor, self.curSize, Qt.SolidLine, Qt.RoundCap, Qt.RoundJoin))
             painter.drawLine(self.curPos, event.pos())
             self.curPos = event.pos()
-            painter.end()
-            self.update()
+        painter.end()
+        self.update()
 
     def mouseReleaseEvent(self, event):
-        self.isDrawing = False
         self.curPos = None
 
     def setShowCursor(self, val):
         self.showCursor = val
+        self.updateCustomCursor()
 
     def setColor(self, color):
-        self.curColor = color
-        self.updateCustomCursor()
+        if self.brushStyle == "erase":
+            self.oldColor = color
+        else:
+            self.curColor = color
+            self.updateCustomCursor()
 
     def setBrushSize(self, size):
         self.curSize = size
         self.updateCustomCursor()
 
-    def setSolidBrush(self):
-        self.brushStyle = "solid"
-
-    def setSprayBrush(self):
-        self.brushStyle = "spray"
-
-    def setEraseBrush(self):
-        self.brushStyle = "erase"
+    def setStyle(self, style):
+        if self.brushStyle == "erase":
+            self.curColor = self.oldColor
+        elif style == "erase":
+            self.oldColor = self.curColor
+            self.curColor = QColor("white")
+        self.brushStyle = style
+        self.updateCustomCursor()
 
     def setEnlargeStyle(self, style):
         self.enlargeStyle = style
@@ -121,8 +93,9 @@ class PaintWidget(QLabel):
         self.shrinkStyle = style
 
     def changeColor(self):
-        self.setColor(QColorDialog.getColor())
-        return self.curColor
+        color = QColorDialog.getColor()
+        self.setColor(color)
+        return color
 
     def clearImage(self):
         image = QPixmap(self.curImageSize)

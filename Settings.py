@@ -10,6 +10,7 @@ class Settings(QWidget):
         self._colorHistory = history
         self._addWidgets()
         self._linkActions()
+        self.setFixedHeight(self.minimumSizeHint().height())
 
     def _addWidgets(self):
         layout = QVBoxLayout()

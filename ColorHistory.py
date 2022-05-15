@@ -5,7 +5,7 @@ from PaintWidget import PaintWidget
 class ColorHistory(QWidget):
     def __init__(self, paintWidget: PaintWidget):
         super().__init__()
-        self.setFixedWidth(170)
+        self.setFixedWidth(200)
         self._paintWidget = paintWidget
         self._addWidgets()
         self._linkActions()

@@ -23,36 +23,36 @@ A painting GUI with the following functionalities and widgets:
 
 ### Executing program
 
-* How to run the program
-* Step-by-step bullets
+How to run the program
 ```
 python main.py
 ```
 ## Classes & Functions
 * **PyPaintMainUi:** Encapsulates PaintWidget, Settings, and Color History
+  * _addWidgets(self): encapsulates PaintWidget, Settings, and Color History under a central widget
 * **PaintWidget:** Encapsulates canvas and painting functionalities
-  * updateCustomCursor(self)
-  * mousePressEvent(self, event)
-  * mouseMoveEvent(self, event)
-  * mouseReleaseEvent(self, event)
+  * updateCustomCursor(self): updates drawing cursor (circle with currently selected color if the brush style is not spray; otherwise, sets the cursor to be a pointer cursor)
+  * mousePressEvent(self, event): mouse press event handler to draw first point
+  * mouseMoveEvent(self, event): mouse move event handler to draw continuous points along drawn path
+  * mouseReleaseEvent(self, event): mouse release event handler to reset current cursor position
   * setShowCursor(self, val)
-  * setColor(self, color)
-  * setBrushSize(self, size)
-  * setSolidBrush(self)
-  * setSprayBrush(self)
-  * setEraseBrush(self)
-  * setEnlargeStyle(self, style)
-  * setShrinkStyle(self, style)
-  * changeColor(self)
-  * clearImage(self)
-  * saveImage(self)
-  * extend(self)
-  * scale(self)
-  * resizeEvent(self, event)
+  * setColor(self, color): sets brush color
+  * setBrushSize(self, size): sets brush size
+  * setStyle(self, style): sets brush style
+  * setEnlargeStyle(self, style): sets enlarge style
+  * setShrinkStyle(self, style): sets shrink style
+  * changeColor(self): retrieves selected color from color dialog, sets burhs color, and returns color
+  * clearImage(self): "clears" canvas by filling canvas with white
+  * clearImageDialog(self): message dialog to clear canvas
+  * saveImage(self): message dialog to save image as a png
+  * extend(self): adds empty canvas space/removes canvass space
+  * scale(self): stretches/shrinks canvas to new canvas size
+  * resizeEvent(self, event): canvas resize to handle enalarge styles (extend & scale) and shrink (extend & scale) styles
 * **Settings:** Encapsulates brush size, cursor, brush styles, image/window resize, clear, colors, and save settings
   * _addWidgets(self)
   * _linkActions(self)
   * changeColor(self)
+  * setStyle(Self)
 * **ColorHistory:** Encapsulates color history list and reuse color functionalities
   * _addWidgets(self)
   * _linkActions(self)

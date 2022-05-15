@@ -47,21 +47,21 @@ python main.py
   * `saveImage(self)`: message dialog to save image as a png
   * `extend(self)`: adds empty canvas space/removes canvas space
   * `scale(self)`: stretches/shrinks canvas to new canvas size
-  * `resizeEvent(self, event)`: canvas resize to handle enalarge styles (extend & scale) and shrink (extend & scale) styles
+  * `resizeEvent(self, event)`: canvas resize to handle enlarge styles (extend & scale) and shrink (extend & scale) styles
 * **Settings:** Encapsulates brush size, cursor, brush styles, image/window resize, clear, colors, and save settings
-  * `_addWidgets(self)`
-  * `_linkActions(self)`
-  * `changeColor(self)`
-  * `setStyle(self)`
+  * `_addWidgets(self)`: encapsulates setting widgets
+  * `_linkActions(self)`: links widget actions to corresponding functions
+  * `changeColor(self)`:  changes brush color
+  * `setStyle(self)`: sets brush style
 * **ColorHistory:** Encapsulates color history list and reuse color functionalities
-  * `_addWidgets(self)`
-  * `_linkActions(self)`
-  * `_reuseColor(self, color)`
-  * `addColor(self, color)`
+  * `_addWidgets(self)`: encapsulates color history list widgets
+  * `_linkActions(self)`: links widget actions to corresponding functions
+  * `_reuseColor(self, color)`: sets brush color to selected color in color history
+  * `addColor(self, color)`: appends used color to the color history
 
 ## Authors
 
 Contributors names
-[@Adeebur Rahman](https://github.com/adeeburrahman)
-[@Darren Liang](https://github.com/dliang2)
-[@Emily Fang](https://github.com/ef1301)
+* Adeebur Rahman [@adeeburrahman](https://github.com/adeeburrahman)
+* Darren Liang [@dliang2](https://github.com/dliang2)
+* Emily Fang [@ef1301](https://github.com/ef1301)

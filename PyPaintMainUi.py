@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QComboBox, QSlider, QLabel, QColorDialog, QCheckBox, QRadioButton, QListWidget, QListWidgetItem
+from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QWidget
 from PyQt5.QtGui import QColor
 from PyQt5.QtCore import Qt
 from PaintWidget import PaintWidget
@@ -35,5 +35,3 @@ class PyPaintMainUi(QMainWindow):
         widget.setLayout(columnLayout)
 
         self.setCentralWidget(widget)
-
-

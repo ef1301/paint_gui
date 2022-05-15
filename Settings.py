@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QComboBox, QSlider, QLabel, QColorDialog, QCheckBox, QRadioButton, QListWidget, QListWidgetItem
+from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QComboBox, QSlider, QLabel, QCheckBox, QRadioButton
 from PyQt5.QtCore import Qt
 from PaintWidget import PaintWidget
 from ColorHistory import ColorHistory
@@ -10,6 +10,7 @@ class Settings(QWidget):
         self._colorHistory = history
         self._addWidgets()
         self._linkActions()
+
     def _addWidgets(self):
         layout = QVBoxLayout()
 
@@ -80,19 +81,28 @@ class Settings(QWidget):
         layout.addLayout(buttonsLayout)
 
         self.setLayout(layout)
+
     def _linkActions(self):
         self.clearButton.clicked.connect(self._paintWidget.clearImage)
         self.colorButton.clicked.connect(self.changeColor)
         self.saveButton.clicked.connect(self._paintWidget.saveImage)
         self.sizeSlider.valueChanged.connect(self._paintWidget.setBrushSize)
-        self.solidBrush.toggled.connect(self._paintWidget.setSolidBrush)
-        self.sprayBrush.toggled.connect(self._paintWidget.setSprayBrush)
-        self.eraseBrush.toggled.connect(self._paintWidget.setEraseBrush)
+        self.solidBrush.toggled.connect(self.setStyle)
+        self.sprayBrush.toggled.connect(self.setStyle)
+        self.eraseBrush.toggled.connect(self.setStyle)
         self.cursorCheckBox.setChecked(self._paintWidget.showCursor)
         self.enlargeComboBox.activated[str].connect(self._paintWidget.setEnlargeStyle)
         self.shrinkComboBox.activated[str].connect(self._paintWidget.setShrinkStyle)
         self.cursorCheckBox.stateChanged.connect(self._paintWidget.setShowCursor)
 
     def changeColor(self):
+        if self.eraseBrush.isChecked():
+            self.solidBrush.setChecked(True)
+            self._paintWidget.setStyle("solid")
         color = self._paintWidget.changeColor()
         self._colorHistory.addColor(color)
+
+    def setStyle(self):
+        radio = self.sender()
+        if radio.isChecked():
+            self._paintWidget.setStyle(radio.text())

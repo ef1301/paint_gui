@@ -5,10 +5,10 @@ from PaintWidget import PaintWidget
 class ColorHistory(QWidget):
     def __init__(self, paintWidget: PaintWidget):
         super().__init__()
-        self.setFixedWidth(200)
         self._paintWidget = paintWidget
         self._addWidgets()
         self._linkActions()
+        self.setFixedWidth(self.minimumSizeHint().width())
 
     def _addWidgets(self):
         layout = QVBoxLayout()

@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QLabel, QFileDialog, QColorDialog
+from PyQt5.QtWidgets import QLabel, QFileDialog, QColorDialog, QMessageBox
 from PyQt5.QtGui import QPixmap, QColor, QPainter, QPen, QCursor
 from PyQt5.QtCore import Qt, QSize, QPoint, QPointF
 import random
@@ -101,14 +101,28 @@ class PaintWidget(QLabel):
         image = QPixmap(self.curImageSize)
         image.fill(QColor("white"))
         self.setPixmap(image)
+        
+    def clearImageDialog(self):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Question)
+        msg.setWindowTitle("Clear Confirmation")
+        msg.setText("Are you sure you want to clear the image? This action cannot be undone") 
+        msg.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+        ret = msg.exec_()
 
+        if ret == QMessageBox.Ok: 
+            self.clearImage()
+        
     def saveImage(self):
         fileName, _ = QFileDialog.getSaveFileName(self, "Save Image", "image.png", "PNG(*.png);;")
 
         if fileName.find(".png") > 0:
             self.pixmap().save(fileName)
         else:
-            print("Invalid File Name")
+            msg = QMessageBox()
+            msg.setWindowTitle("Invalid File Name")
+            msg.setText("Invalid file extension. File must be saved as an image (.png)")
+            msg.exec_()
 
     def extend(self):
         newImage = QPixmap(self.curImageSize)
